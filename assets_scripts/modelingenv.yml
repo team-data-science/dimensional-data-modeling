@@ -1,0 +1,16 @@
+name: modelingcourse
+channels:
+    - https://conda.anaconda.org/menpo
+    - conda-forge
+dependencies:
+    - python==3.10
+    - pip:
+        - duckdb==0.9.1
+        - SQLAlchemy==1.4.44
+        - mysqlclient==2.2.0
+        - pygrametl==2.8
+        - mysql-connector-python==8.1.0
+        - pandas==2.0.3
+        - pymysql==1.1.0
+        - jupyter==1.0.0
+        - openpyxl==3.1.2

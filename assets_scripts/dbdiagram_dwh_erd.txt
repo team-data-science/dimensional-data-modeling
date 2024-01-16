@@ -1,0 +1,58 @@
+Table fact_sales {
+order_num pk
+employee_id varchar
+customer_id varchar
+product_id varchar
+sales_channel_id varchar
+currency_code varchar
+order_quantity float
+discount_applied float
+total_cost float
+total_price float
+order_date timestamp
+ship_date timestamp
+delivery_date timestamp
+procure_date timestamp
+}
+
+Table dim_product {
+product_id pk
+product_name varchar
+}
+
+Table dim_employee {
+employee_id pk
+employee_name varchar
+store_id varchar
+}
+
+Table dim_store {
+store_id pk
+store_name varchar
+latitude float
+longitude float
+location varchar
+city_name varchar
+type varchar
+area_code varchar
+state_code varchar
+state varchar
+country varchar
+}
+
+Table dim_customer {
+customer_id pk
+customer_name varchar
+}
+
+Table dim_sales_channel {
+sales_channel_id pk
+sales_channel_name varchar
+}
+
+
+Ref: fact_sales.product_id > dim_product.(product_id)
+Ref: fact_sales.employee_id > dim_employee.(employee_id)
+Ref: dim_employee.store_id > dim_store.(store_id)
+Ref: fact_sales.customer_id > dim_customer.(customer_id)
+Ref: fact_sales.sales_channel_id > dim_sales_channel.(sales_channel_id)
