@@ -10,7 +10,7 @@ Configure a modelingcourse environment with Anaconda, an open source package man
 2. Clone the github repository.
 ```
 git clone https://github.com/team-data-science/dimensional-data-modeling.git
-cd relational-data-modeling/assets_scripts
+cd dimensional-data-modeling/assets_scripts
 ```
 
 3. Running this command will create a new conda environment that is provisioned with most of the libraries you need for this project.
