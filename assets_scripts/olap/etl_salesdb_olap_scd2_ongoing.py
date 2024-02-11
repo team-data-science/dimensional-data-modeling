@@ -48,7 +48,7 @@ def fact_orders_scd2(sourceDatabase, dw_conn_wrapper):
     # As we specified compare = False, in case the measure value that already exists in the data warehouse is different from the value in the given row, 
     # the ValueError error is not raised
     for row in source:
-        row['employee_sk'] = employees_dim.lookupasof(row, row['order_date'], (False, True), {'employee_id':'employee_id'})
+        row['employee_sk'] = employees_dim.lookupasof(row, row['order_date'], (True, False), {'employee_id':'employee_id'})
         fact_table.ensure(row, False, {'order_num': 'order_num'})
         
     dw_conn_wrapper.commit()
@@ -61,6 +61,6 @@ def main():
 if __name__ == '__main__':
     # Connect to salesdb (OLTP) and salesdwh (OLT)
     sourceDatabase = MySQLdb.connect(database = 'salesdb', user = 'user', password = 'password', port = 42333)
-    destDatabase = duckdb.connect(r'C:\Users\katep\OneDrive\Desktop\DEV-modeling\assets_scripts\salesdwh.duckdb') # Change the path if you have your sales duckDB somewhere else
+    destDatabase = duckdb.connect(r'C:\Users\katep\OneDrive\Documents\Andreas\dimensional-data-modeling\assets_scripts\salesdwh.duckdb') # Change the path if you have your sales duckDB somewhere else
     dw_conn_wrapper = pygrametl.ConnectionWrapper(connection = destDatabase)
     main()

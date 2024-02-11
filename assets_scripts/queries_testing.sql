@@ -131,10 +131,9 @@ left join dim_product p on f.product_id  = p.product_id
 left join dim_store st on e.store_id = st.store_id 
 where f.order_num = 'SO - 000207';
 
---mysql
-update employee
-set store_id = '50'
-where employee_id  = '1';
+
+--duckdb dwh
+select count(*) as num from main.fact_sales_scd2;
 
 --duckdb dwh
 select * from dim_employee_scd2 
@@ -169,7 +168,7 @@ where f.order_num = 'SO - 000207';
 
 --mysql
 update employee
-set store_id = '67'
+set store_id = '50'
 where employee_id  = '1';
 
 --duckdb dwh
@@ -198,7 +197,7 @@ where f.order_num = 'SO - 000207';
 --mysql
 insert into sales_order (order_num, order_date, currency_code, order_quantity, discount_applied, ship_date,
 delivery_date, procure_date, total_cost, total_price, employee_id, customer_id, sales_channel_id, product_id) values 
-('SO - 04', current_date, 'USD', 1, 1,  '2023-07-24',  '2023-07-24',  '2023-07-24', 10, 10, '1', '1', '1', 1);
+('SO - 15', current_date, 'USD', 1, 1,  '2023-07-24',  '2023-07-24',  '2023-07-24', 10, 10, '1', '1', '1', 1);
 
 --duckdb dwh
 select 
@@ -221,64 +220,4 @@ left join dim_employee_scd2 e on f.employee_sk  = e.employee_sk
 left join dim_product p on f.product_id  = p.product_id
 left join dim_sales_channel s on f.sales_channel_id  = s.sales_channel_id 
 left join dim_store st on e.store_id = st.store_id 
-where f.order_num = 'SO - o4';
-
---mysql
-insert into sales_order (order_num, order_date, currency_code, order_quantity, discount_applied, ship_date,
-delivery_date, procure_date, total_cost, total_price, employee_id, customer_id, sales_channel_id, product_id) values 
-('SO - 05', current_date+1, 'USD', 1, 1,  '2023-07-24',  '2023-07-24',  '2023-07-24', 10, 10, '1', '1', '1', 1);
-
---duckdb dwh
-select 
-f.order_num,
-f.employee_sk,
-e.employee_id,
-e.store_id,
-c.customer_name,
-e.employee_name,
-p.product_name,
-s.sales_channel_name,
-st.location as store_location,
-f.order_quantity,
-f.total_cost,
-f.total_price,
-f.order_date
-from fact_sales_scd2 f
-left join dim_customer c on f.customer_id = c.customer_id 
-left join dim_employee_scd2 e on f.employee_sk  = e.employee_sk 
-left join dim_product p on f.product_id  = p.product_id
-left join dim_sales_channel s on f.sales_channel_id  = s.sales_channel_id 
-left join dim_store st on e.store_id = st.store_id 
-where f.order_num = 'SO - 05';
-
---duckdb dwh
-with emp as 
-(select employee_sk, employee_id,employee_name,
-valid_from,
-case when valid_to is null then '2999-01-01'
-else current_date end valid_to, 
-store_id
-from dim_employee_scd2
-)
-select 
-f2.order_num,
-f2.employee_sk,
-emp.employee_id,
-emp.store_id,
-c.customer_name,
-emp.employee_name,
-p.product_name,
-s.sales_channel_name,
-st.location as store_location,
-f2.order_quantity,
-f2.total_cost,
-f2.total_price,
-f2.order_date
-from fact_sales_scd2 f2
-left join dim_customer c on f2.customer_id = c.customer_id 
-left join emp on f2.employee_id  = emp.employee_id and  ( valid_from < order_date  and valid_to >=order_date)
-left join dim_product p on f2.product_id  = p.product_id
-left join dim_sales_channel s on f2.sales_channel_id  = s.sales_channel_id 
-left join dim_store st on emp.store_id = st.store_id 
-where emp.employee_sk  is not null
-and f2.order_num  in ( 'SO - 000207', 'SO - 05')
+where f.order_num = 'SO - 15';
