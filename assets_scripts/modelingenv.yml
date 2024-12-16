@@ -2,8 +2,10 @@ name: modelingcourse
 channels:
     - https://conda.anaconda.org/menpo
     - conda-forge
+    - defaults
 dependencies:
     - python==3.10
+    - pip
     - pip:
         - duckdb==0.9.1
         - SQLAlchemy==1.4.44
